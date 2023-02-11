@@ -3,32 +3,33 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using InsantLista_Services.Interfaces;
-using InstantLista_ClassLibrary.DataTransferObjects;
+using InstantLista_ClassLibrary;
 using InstantLista_ClassLibrary.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
+using InstantLista_DataAccess.Interfaces;
+using System.Linq;
 
 namespace InsantLista_Services.Services
 { 
     public class AuthenticationService:IAuthenticationService
     {
-        //private readonly IUserRepository _userRepository;
+        private readonly IUsersRepository _usersRepository;
         //private readonly IMembershipRepository _membershipRepository;
         private readonly AppSettings _appSettings;
 
-        public AuthenticationService(/*IUserRepository userRepository, IMembershipRepository membershipRepository,*/ IOptions<AppSettings> appSettings)
+        public AuthenticationService(IUsersRepository usersRepository, /*IMembershipRepository membershipRepository,*/ IOptions<AppSettings> appSettings)
         {
-            //_userRepository = userRepository;
+            _usersRepository = usersRepository;
             //_membershipRepository = membershipRepository;
             _appSettings = appSettings.Value;
         }
 
         public async Task<TokenJWTDto> Authenticate(string userName, string passWord)
         {
-            //var user = (await _userRepository.GetItemsAsync(new UserQuerySpecifications(userName))).FirstOrDefault();
+            var user = (await _usersRepository.readAll()).FirstOrDefault(u => u.UserName==userName);
 
-            var user = "David";
-            if (user == null)
+            if (user == null) 
             {
                 return null;
             }
@@ -43,7 +44,7 @@ namespace InsantLista_Services.Services
                 return new ValidatedResult<TokenJWT> { ErrorCode = "BadCredentials" };
             }*/
 
-            var jwt = GenerateAccessToken(12345/*user.UserNumber*/);
+            var jwt = GenerateAccessToken(user.Id);
 
             //await UpdateToken(user, jwt.IdToken);
 

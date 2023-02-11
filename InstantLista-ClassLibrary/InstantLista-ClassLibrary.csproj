@@ -10,9 +10,11 @@
   <ItemGroup>
     <None Remove="DataTransferObjects\" />
     <None Remove="Helpers\" />
+    <None Remove="Entities\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DataTransferObjects\" />
     <Folder Include="Helpers\" />
+    <Folder Include="Entities\" />
   </ItemGroup>
 </Project>

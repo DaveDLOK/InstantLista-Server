@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantLista-ClassLibrary",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsantLista-Services", "InsantLista-Services\InsantLista-Services.csproj", "{9DE482A1-F2BC-495C-9B39-1949ABE92EA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstantLista-DataAccess", "InstantLista-DataAccess\InstantLista-DataAccess.csproj", "{B93F92B0-5714-43E6-BE48-9AA6EB3AE6EC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9DE482A1-F2BC-495C-9B39-1949ABE92EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DE482A1-F2BC-495C-9B39-1949ABE92EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DE482A1-F2BC-495C-9B39-1949ABE92EA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B93F92B0-5714-43E6-BE48-9AA6EB3AE6EC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B93F92B0-5714-43E6-BE48-9AA6EB3AE6EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B93F92B0-5714-43E6-BE48-9AA6EB3AE6EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B93F92B0-5714-43E6-BE48-9AA6EB3AE6EC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

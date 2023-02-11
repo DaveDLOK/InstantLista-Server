@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using InstantLista_ClassLibrary.DataTransferObjects;
+using InstantLista_ClassLibrary;
 using InsantLista_Services.Interfaces;
 
 namespace InstantLista_Server.Controllers;

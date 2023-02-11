@@ -1,5 +1,5 @@
 ﻿using System;
-namespace InstantLista_ClassLibrary.DataTransferObjects
+namespace InstantLista_ClassLibrary
 {
     /// <summary>
     ///     ToDoItem Api Model

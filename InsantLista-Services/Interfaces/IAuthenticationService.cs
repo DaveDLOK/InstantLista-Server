@@ -1,5 +1,5 @@
 ﻿using System;
-using InstantLista_ClassLibrary.DataTransferObjects;
+using InstantLista_ClassLibrary;
 
 namespace InsantLista_Services.Interfaces
 {

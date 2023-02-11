@@ -1,5 +1,4 @@
-﻿namespace InstantLista_ClassLibrary.DataTransferObjects
-{
+﻿namespace InstantLista_ClassLibrary;
     /// <summary>
     ///     ToDoItem Api Model
     /// </summary>
@@ -18,5 +17,4 @@
         /// </summary>
         public string UserNumber { get; set; }
     }
-}
 
