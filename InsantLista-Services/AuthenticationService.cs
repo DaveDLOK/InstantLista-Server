@@ -15,18 +15,25 @@ namespace InsantLista_Services.Services
     public class AuthenticationService:IAuthenticationService
     {
         private readonly IUsersRepository _usersRepository;
-        //private readonly IMembershipRepository _membershipRepository;
+        private readonly IMembershipRepository _membershipRepository;
         private readonly AppSettings _appSettings;
 
-        public AuthenticationService(IUsersRepository usersRepository, /*IMembershipRepository membershipRepository,*/ IOptions<AppSettings> appSettings)
+        public AuthenticationService(IUsersRepository usersRepository, IMembershipRepository membershipRepository, IOptions<AppSettings> appSettings)
         {
             _usersRepository = usersRepository;
-            //_membershipRepository = membershipRepository;
+            _membershipRepository = membershipRepository;
             _appSettings = appSettings.Value;
         }
 
         public async Task<TokenJWTDto> Authenticate(string userName, string passWord)
         {
+            using var hasher = SHA256.Create();
+
+            /*var salt = Encoding.ASCII.GetBytes(_appSettings.Secret);
+            var newMem = new Membership { Id = 1, LastLogin = DateTimeOffset.UtcNow, Salt = salt, Password = hasher.ComputeHash(passWord.Select(p => (byte)p).Concat(salt).ToArray()) };
+
+            await _membershipRepository.Create(newMem);*/
+
             var user = (await _usersRepository.readAll()).FirstOrDefault(u => u.UserName==userName);
 
             if (user == null) 
@@ -34,19 +41,24 @@ namespace InsantLista_Services.Services
                 return null;
             }
 
-            //var membership = await _membershipRepository.GetItemByUserNumber(new MembershipSpecifications(user.UserNumber));
+            var membership = (await _membershipRepository.readAll()).FirstOrDefault(m=>m.Id==user.Id);
 
-            /*using var hasher = SHA256.Create();
+            if (membership == null)
+            {
+                return null;
+            }
+
+            
             var hashedPassword = hasher.ComputeHash(passWord.Select(p => (byte)p).Concat(membership.Salt).ToArray());
 
             if (!hashedPassword.SequenceEqual(membership.Password))
             {
-                return new ValidatedResult<TokenJWT> { ErrorCode = "BadCredentials" };
-            }*/
+                return null;
+            }
 
             var jwt = GenerateAccessToken(user.Id);
 
-            //await UpdateToken(user, jwt.IdToken);
+            await UpdateToken(user, jwt.IdToken);
 
             return jwt;
 
@@ -82,7 +94,7 @@ namespace InsantLista_Services.Services
             return jwt;
         }
 
-        /*public async Task<ValidatedResult<TokenJWT>> Refresh(string bearertoken, string refreshToken)
+        public async Task<TokenJWTDto> Refresh(string bearertoken, string refreshToken)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -92,7 +104,7 @@ namespace InsantLista_Services.Services
             //TODO create a Refresh document type in collection to store user used tokens and validate against token provided
 
             //check if token exist
-            var user = await _userRepository.GetItemByUserNumber(new UserQuerySpecifications(userNumber));
+            var user = (await _usersRepository.readAll()).FirstOrDefault(u => u.Id == userNumber);
 
             if (user.UserToken != refreshToken)
             {
@@ -107,14 +119,14 @@ namespace InsantLista_Services.Services
             await UpdateToken(user, jwt.IdToken);
 
             //return new refreshed token
-            return new ValidatedResult<TokenJWT> { Result = jwt };
+            return jwt;
         }
 
         private async Task UpdateToken(User user, string saveToken)
         {
             user.UserToken = saveToken;
 
-            await _userRepository.UpdateItemAsync(user.Id, user);
-        }*/
+            await _usersRepository.Update(user);
+        }
     }
 }

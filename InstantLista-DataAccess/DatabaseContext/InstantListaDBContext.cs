@@ -18,6 +18,7 @@ public class InstantListaDBContext : DbContext
     {
         //using modelBuilder to map some relationships
         modelBuilder.Entity<User>().ToTable("System.Users");
+        modelBuilder.Entity<Membership>().ToTable("System.Memberships");
     }
 }
 

@@ -24,5 +24,21 @@ public class AuthenticationController : ControllerBase
     {
         return await _authenticationSerivce.Authenticate(userAuthenticationDto.Email, userAuthenticationDto.Password);
     }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="refreshModel"></param>
+    /// <returns></returns>
+    [HttpPost("refresh", Name = "GetRefreshedJWT")]
+    [AllowAnonymous]
+    [ApiConventionMethod(typeof(DefaultApiConventions), nameof(DefaultApiConventions.Post))]
+    public async Task<TokenJWTDto> GetJWT([FromBody] TokenRefreshDto refreshModel)
+    {
+        var bearerToken = Request.Headers["Authorization"].ToString().Split()[1];
+
+
+        return await _authenticationSerivce.Refresh(bearerToken, refreshModel.idToken);
+    }
 }
 

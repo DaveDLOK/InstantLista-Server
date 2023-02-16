@@ -18,6 +18,24 @@ namespace InstantLista_DataAccess.Repositories
 			return result;
 		}
 
-	}
+		public async Task<T> Update(T entity)
+		{
+			 _dbContext.Update(entity);
+
+			await _dbContext.SaveChangesAsync();
+
+			return entity;
+		}
+
+        public async Task<T> Create(T entity)
+        {
+            await _dbContext.AddAsync(entity);
+
+            await _dbContext.SaveChangesAsync();
+
+            return entity;
+        }
+
+    }
 }
 
