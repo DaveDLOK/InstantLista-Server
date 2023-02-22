@@ -20,9 +20,12 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost("login",Name = "GetJWT")]
     [AllowAnonymous]
-    public async Task<TokenJWTDto> GetJWT([FromBody] UserAuthenticationDto userAuthenticationDto)
+    public async Task<ActionResult<TokenJWTDto>> GetJWT([FromBody] UserAuthenticationDto userAuthenticationDto)
     {
-        return await _authenticationSerivce.Authenticate(userAuthenticationDto.Email, userAuthenticationDto.Password);
+        
+        var result = await _authenticationSerivce.Authenticate(userAuthenticationDto.Email, userAuthenticationDto.Password);
+
+        return result != null ? result: Unauthorized();
     }
 
     /// <summary>
