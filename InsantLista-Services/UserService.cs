@@ -44,6 +44,7 @@ namespace InsantLista_Services.Services
 
             return userDto;
         }
+
         /*public async Task<IEnumerable<UserContact>> GetContacts(int userNumber)
         {
             var userContacts = await _userContactsRepository.GetItemByUserNumber(new UserContactQuerySpecifications(userNumber));
