@@ -30,7 +30,7 @@ namespace InsantLista_Services.Services
 
         public async Task<IEnumerable<NewsDto>> GetNews()
         {
-            var news = await _newsRepository.readAll();
+            var news = await _newsRepository.readAll(e => true==true);
             var result = new List<NewsDto>();
 
             foreach (var element in news)

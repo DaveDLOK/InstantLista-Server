@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 namespace InstantLista_DataAccess.Repositories
@@ -12,9 +13,9 @@ namespace InstantLista_DataAccess.Repositories
 			_dbContext = context;
 		}
 
-		public async Task<IEnumerable<T>> readAll()
+		public async Task<IEnumerable<T>> readAll(Expression<Func<T,bool>> expression)
 		{
-			var result =  await _dbContext.Set<T>().ToListAsync();
+			var result =  await _dbContext.Set<T>().Where(expression).ToListAsync();
 			return result;
 		}
 

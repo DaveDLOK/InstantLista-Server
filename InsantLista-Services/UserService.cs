@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using InstantLista_DataAccess.Interfaces;
 using System.Linq;
 using InstantLista_DataAccess.Repositories;
+using System.Linq.Expressions;
 
 namespace InsantLista_Services.Services
 {
@@ -30,7 +31,8 @@ namespace InsantLista_Services.Services
 
         public async Task<UserDto> GetUser(int userId)
         {
-            var user = (await _userRepository.readAll()).FirstOrDefault(u => u.Id == userId);
+            Expression<Func<User, bool>> userModifier = u => u.Id == userId;
+            var user = (await _userRepository.readAll(userModifier)).FirstOrDefault();
 
             var userDto =  new UserDto()
             {

@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
 using InstantLista_DataAccess.Interfaces;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace InsantLista_Services.Services
 { 
@@ -33,15 +34,16 @@ namespace InsantLista_Services.Services
             var newMem = new Membership { Id = 1, LastLogin = DateTimeOffset.UtcNow, Salt = salt, Password = hasher.ComputeHash(passWord.Select(p => (byte)p).Concat(salt).ToArray()) };
 
             await _membershipRepository.Create(newMem);*/
-
-            var user = (await _usersRepository.readAll()).FirstOrDefault(u => u.UserName==userName);
+            Expression<Func<User, bool>> userModifier = u => u.Email == userName || u.UserName == userName;
+            var user = (await _usersRepository.readAll(userModifier)).FirstOrDefault();
 
             if (user == null) 
             {
                 return null;
             }
 
-            var membership = (await _membershipRepository.readAll()).FirstOrDefault(m=>m.Id==user.Id);
+            Expression<Func<Membership, bool>> membershipModifier = mm => mm.Id == user.Id;
+            var membership = (await _membershipRepository.readAll(membershipModifier)).FirstOrDefault();
 
             if (membership == null)
             {
@@ -104,7 +106,8 @@ namespace InsantLista_Services.Services
             //TODO create a Refresh document type in collection to store user used tokens and validate against token provided
 
             //check if token exist
-            var user = (await _usersRepository.readAll()).FirstOrDefault(u => u.Id == userNumber);
+            Expression<Func<User, bool>> userModifier = um => um.Id == userNumber;
+            var user = (await _usersRepository.readAll(userModifier)).FirstOrDefault();
 
             if (user.UserToken != refreshToken)
             {
